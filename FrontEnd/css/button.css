@@ -1,0 +1,16 @@
+#access {
+    position:absolute;
+    top:50%;
+    /*left:50%;*/
+}
+
+#videoStart {
+    position:relative;
+    left:50%;
+}
+
+#fullDiv {
+    position:relative;
+    width:100%;
+    background-color: red;
+}
