@@ -14,7 +14,7 @@
     <!-- Bootstrap core CSS -->
     <link href="bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template --><!-- 
+    <!-- Custom styles for this template --><!--
     <link href="css/maps.css" rel="stylesheet">
     <link href="css/searchBar.css" rel="stylesheet"> -->
 
@@ -24,11 +24,16 @@
 
     <div id="video_embed"></div>
     <div id="Emotion Felt"></div>
-  
+
+    <div id="main-frame"><button id="access">Give Camera Access</button></div>
+    <video id="video" width="640" height="480" autoplay></video>
+    <button id="snap">Snap Photo</button>
+    <canvas id="canvas" width="640" height="480"></canvas>
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+    <script src="js/userMediaHandler.js"></script>
 
   </body>
 </html>
