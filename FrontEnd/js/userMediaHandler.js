@@ -16,37 +16,45 @@ if (!hasGetUserMedia()) {
 //        errBack = function(error) {
 //            if(error.name == "PermissionDeniedError")
 //                alert('Webcam access is required for this page to work');
-//
+//            else
+//                alert('Unknown error, please give permission to webcam and try again');
+//        //todo: make this prettier
 //        };
-//        initializeVideoFeed = function() {
-//            $("#main-frame").html('<video id="video" width="640" height="480" autoplay></video><button id="snap">Snap Photo</button> <canvas id="canvas" width="640" height="480"></canvas>');
+//        initializeVideoFeed = function(stream) {
+//            $("#main-frame").html('<video id="video" width="640" height="480" autoplay></video><br><button id="snap">Begin Video</button>');
 //        }
 //
 //    if(navigator.getUserMedia) {
 //        navigator.getUserMedia(videoObj, function(stream) {
 //            console.log(stream);
-//            initializeVideoFeed();
-//            canvas
+//            initializeVideoFeed(stream);
+//            video = document.getElementById("video");
+//            video.src = stream;
+//            video.play();
+//
 //        }, errBack);
 //    } else if(navigator.webkitGetUserMedia) {
 //        navigator.webkitGetUserMedia(videoObj, function (stream) {
 //            console.log(stream);
-//            initializeVideoFeed();
+//            initializeVideoFeed(stream);
+//            video = document.getElementById("video");
+//            video.src = window.webkitURL.createObjectURL(stream);;
+//            video.play();
 //        }, errBack);
 //    } else if(navigator.mozGetUserMedia) {
 //        navigator.mozGetUserMedia(videoObj, function (stream) {
 //            console.log(stream);
-//            initializeVideoFeed();
+//            initializeVideoFeed(stream);
+//            video = document.getElementById("video");
+//            video.src = window.URL.createObjectURL(stream);;
+//            video.play();
 //        }, errBack);
 //    }
-//    else{
-//        alert("failed!");
-//    }
-//
-//
 //
 //
 //});
+
+
 window.addEventListener("DOMContentLoaded", function() {
     // Grab elements, create settings, etc.
     var canvas = document.getElementById("canvas"),
@@ -82,5 +90,3 @@ window.addEventListener("DOMContentLoaded", function() {
         context.drawImage(video, 0, 0, 640, 480);
     });
 }, false);
-
-// Not showing vendor prefixes.
