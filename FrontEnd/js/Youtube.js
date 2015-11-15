@@ -60,10 +60,13 @@ function getTimeStamp() {
 
 var timer = $.timer(function() {
     var t = getTimeStamp();
-    console.log("hello?");
     imageUpload(vidId[1], t, takePicture(), function(data) {
-        if(data == "uploaded") ;
-          fileTimeStamps.push(t);
+        if(data == "uploaded") {
+            var index = fileTimeStamps.push(t);
+            checkEmotions(t, function(data) {
+
+            });
+        }
     });
 });
 
