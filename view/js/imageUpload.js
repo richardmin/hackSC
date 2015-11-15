@@ -24,10 +24,10 @@ function imageUpload(idobj, imagenameobj, imagedataobj) {
         type: 'POST',
         url: 'http://yashtanna.tk/hacksc/image.php',
         data: {id: idobj, imagename: imagenameobj, imagedata: imagedataobj}
-    }).done(function (data, idobj, imagenameobj) {
+    }).done(function (data) {
         if(data == "uploaded") {
             var index = fileTimeStamps.push(imagenameobj);
-            checkEmotions(idobj, imagenameobj, index);
+            checkEmotions(data[0], data[1], dndex);
 
         }
         else
