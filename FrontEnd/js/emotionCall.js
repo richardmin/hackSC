@@ -1,8 +1,7 @@
 /**
  * Created by RichardMin on 11/14/15.
  */
-//
-//var listOfEmotions = [];
+
 ////TODO: Multiple faces case
 //function emotionCall(listOfURLs) {
 //    for (var i = 0; i < listOfURLs.length; i++) {
@@ -12,30 +11,41 @@
 //        });
 //    }
 //}
+var strippedEmotions = [];
 
-function checkEmotions(string, callback)
+function checkEmotions(youtubeID, imagenameobj, index)
 {
+    var s = "http://yashtanna.tk/hacksc/" + youtubeID + "/" + imagenameobj + ".png";
+    console.log(s);
     $.ajax({
-        url: 'https://api.projectoxford.ai/emotion/v1.0/recognize',
-        beforeSend: function (xhrObj) {
-            xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", "2b89fc014456428fa62632238a9e46f8");
+        url: "https://api.projectoxford.ai/emotion/v1.0/recognize&",
+        beforeSend: function(xhrObj){
+            // Request headers
+            xhrObj.setRequestHeader("Content-Type","application/json");
+            xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","2b89fc014456428fa62632238a9e46f8");
         },
-        type: 'GET',
-        contentType: 'application/json',
-        data: '{ "url" : "http://yashtanna.tk/hacksc/"+string}',
-        success: function (data) {
-            callback(data);
-        }
+        type: "POST",
+        // Request body
+        data: "{'url' : s }",
 
+    }).done(function (data, youtubeID, index) {
+        processEmotions(data, youtubeID, index);
+    }).fail(function () {
+        //ew.
     });
+
 }
 
-function processEmotions()
-{
-    for(var i = 0; i < listOfEmotions.length; i++) {
+function processEmotions(data, string, index) {
+    var indexMax = 0;
+    for (var i = 0; i < data.length; i++) {
         //do stuff
-        listOfEmotions[i].length;
-
-
+        if (data[i]["FaceRectangle"]["Width"] * data[i]["FaceRectangle"]["Height"] >
+            data[indexMax]["FaceRectangle"]["Width"] * data[indexMax]["FaceRectangle"]["Height"]) {
+            indexMax = i;
+        }
     }
+    strippedEmotions[index] = data[indexMax]["Scores"];
 }
+
+

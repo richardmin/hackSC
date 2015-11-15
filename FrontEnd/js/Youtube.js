@@ -38,7 +38,7 @@ function go() {
     var rx = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
     var url = document.getElementById("youtube-url").value;
     vidId = url.match(rx);
-    if(vidId != null) {
+    if(vidId != null && YT.PlayerState.UNSTARTED) {
         $("#video").hide();
         //change the id on the youtube video
 
@@ -60,15 +60,9 @@ function getTimeStamp() {
 
 var timer = $.timer(function() {
     var t = getTimeStamp();
-    imageUpload(vidId[1], t, takePicture(), function(data) {
-        if(data == "uploaded") {
-            var index = fileTimeStamps.push(t);
-            checkEmotions(t, function(data) {
-
-            });
-        }
-    });
+    imageUpload(vidId[1], t, takePicture());
 });
+
 
 timer.set({ time: 3000, autostart: false});
 
