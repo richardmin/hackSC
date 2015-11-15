@@ -1,4 +1,4 @@
-<?php
+<?php header('Access-Control-Allow-Origin: *');
     $id = $_POST['id'];
     $imagename = $_POST['imagename'];
     $data = $_POST['imagedata'];
