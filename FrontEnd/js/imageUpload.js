@@ -27,7 +27,7 @@ function imageUpload(idobj, imagenameobj, imagedataobj) {
     }).done(function (data) {
         if(data == "uploaded") {
             var index = fileTimeStamps.push(imagenameobj);
-            checkEmotions(data[0], data[1], dndex);
+            checkEmotions(data[0], data[1], index);
 
         }
         else
