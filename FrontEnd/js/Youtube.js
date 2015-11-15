@@ -6,6 +6,8 @@
     //loads the youtube player asynchronously
 
 var player;
+var vidId;
+var fileTimeStamps = [];
 
 
 /**
@@ -24,49 +26,70 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 var player;
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
-        videoId: 'ZY6GAOPGuPs',
+        videoId: '',
         events: {
             'onStateChange': onPlayerStateChange
         }
     });
 }
 
-function onPlayerStateChange(event) {
-    switch (event.data) {
-        case YT.PlayerState.UNSTARTED:
-            console.log('unstarted');
-            break;
-        case YT.PlayerState.ENDED:
-            console.log('ended');
-            break;
-        case YT.PlayerState.PLAYING:
-            console.log('playing');
-            break;
-        case YT.PlayerState.PAUSED:
-            
-            break;
-        case YT.PlayerState.BUFFERING:
-            console.log('buffering');
-            break;
-        case YT.PlayerState.CUED:
-            console.log('video cued');
-            break;
-    }
-}
-
 function go() {
 
     var rx = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
     var url = document.getElementById("youtube-url").value;
-    var id = url.match(rx);
-    if(id != null) {
+    vidId = url.match(rx);
+    if(vidId != null) {
         $("#video").hide();
         //change the id on the youtube video
 
-        player.loadVideoById(id[1], 0, "large"); //automatically plays the video
+        player.loadVideoById(vidId[1], 0, 'large'); //automatically plays the video
         $("#youtubewrapper").show();
     }
     else
         alert("invalid url");
 
+}
+
+function getVidID() {
+    return vidId;
+}
+
+function getTimeStamp() {
+    return player.getCurrentTime();
+}
+
+var timer = $.timer(function() {
+    var t = getTimeStamp();
+    console.log("hello?");
+    imageUpload(vidId[1], t, takePicture(), function(data) {
+        if(data == "uploaded") ;
+          fileTimeStamps.push(t);
+    });
+});
+
+timer.set({ time: 3000, autostart: false});
+
+function onPlayerStateChange(event) {
+    switch (event.data) {
+        case YT.PlayerState.UNSTARTED:
+            timer.pause();
+            break;
+        case YT.PlayerState.ENDED:
+            timer.stop();
+            //CALL ENDING FUNCTION HERE
+            break;
+        case YT.PlayerState.PLAYING:
+            if(!timer.isActive)
+                timer.play();
+            break;
+        case YT.PlayerState.PAUSED:
+            timer.pause();
+            break;
+        case YT.PlayerState.BUFFERING:
+            timer.pause();
+            break;
+        case YT.PlayerState.CUED:
+            console.log('video cued');
+            break;
+    }
 }
